@@ -45,6 +45,10 @@ public class Managers : MonoBehaviour
             // 오브젝트가 삭제되지않게 변경
             DontDestroyOnLoad(go);
             s_instance = go.GetComponent<Managers>();
+
+            // Instance 접근하면 절대 안된다(무한루프)
+            // SoundManager의 init을 실행시키게 한다
+            s_instance._sound.Init();
         }
     }
 }
