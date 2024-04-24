@@ -40,6 +40,21 @@ public class UIManager
         }
     }
 
+    // 인벤 하위에 아이템을 만드는 메서드
+    // parent 자동으로 지정하기위한 로직 추가
+    public T MakeSubItem<T>(Transform parent = null, string name = null) where T : UI_Base
+    {
+        // 이름을 따로 부여하지않았을 경우 이름을 T와 같게 한다
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        GameObject go = Managers.Resource.Instantiate($"UI/SubItem/{name}");
+        if (parent != null)
+            go.transform.SetParent(parent);
+
+        return Util.GetOrAddComponent<T>(go);
+    }
+
     public T ShowSceneUI<T>(string name = null) where T : UI_Scene
     {
         // 이름을 따로 부여하지않았을 경우 이름을 T와 같게 한다
