@@ -50,19 +50,18 @@ public class SoundManager
 
     public void Play(string path, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f)
     {
-        // 경로에 Sounds/ 를 적지않는 실수를 체크
-        if (path.Contains("Sounds/") == false)
-            path = $"Sounds/{path}";
+        AudioClip audioClip = GetOrAddAudioClip(path, type);
+        Play(audioClip, type, pitch);
+    }
+
+    // 다른 버전의 메서드를 작성할 때에는 
+    public void Play(AudioClip audioClip, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f)
+    {
+        if (audioClip == null)
+            return;
 
         if (type == Define.Sound.Bgm)
         {
-            AudioClip audioClip = GetOrAddAudioClip(path);
-            if (audioClip == null)
-            {
-                Debug.Log($"AudioClip Missing! {path}");
-                return;
-            }
-
             AudioSource audioSource = _audioSources[(int)Define.Sound.Bgm];
 
             if (audioSource.isPlaying)
@@ -74,29 +73,36 @@ public class SoundManager
         }
         else // Define.Sound.Effect : 단발성
         {
-            AudioClip audioClip = GetOrAddAudioClip(path);
-            if (audioClip == null)
-            {
-                Debug.Log($"AudioClip Missing! {path}");
-                return;
-            }
-
             AudioSource audioSource = _audioSources[(int)Define.Sound.Effect];
             audioSource.pitch = pitch;
             audioSource.PlayOneShot(audioClip);
         }
     }
 
-    AudioClip GetOrAddAudioClip(string path)
+    AudioClip GetOrAddAudioClip(string path, Define.Sound type = Define.Sound.Effect)
     {
+        // 경로에 Sounds/ 를 적지않는 실수를 체크
+        if (path.Contains("Sounds/") == false)
+            path = $"Sounds/{path}";
+
         AudioClip audioClip = null;
-        if (_audioClips.TryGetValue(path, out audioClip) == false)
+        if (type == Define.Sound.Bgm)
         {
-            // 없을경우 생성
             audioClip = Managers.Resource.Load<AudioClip>(path);
-            // Dictionary에 추가
-            _audioClips.Add(path, audioClip);
         }
+        else // Define.Sound.Effect : 단발성
+        {
+
+            if (_audioClips.TryGetValue(path, out audioClip) == false)
+            {
+                // 없을경우 생성
+                audioClip = Managers.Resource.Load<AudioClip>(path);
+                // Dictionary에 추가
+                _audioClips.Add(path, audioClip);
+            }
+        }
+        if (audioClip == null)
+            Debug.Log($"AudioClip Missing! {path}");
 
         return audioClip;
     }
