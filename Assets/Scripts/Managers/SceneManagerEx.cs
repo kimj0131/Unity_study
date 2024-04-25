@@ -10,8 +10,8 @@ public class SceneManagerEx
 
     public void LoadScene(Define.Scene type)
     {
-        // 현재 사용하던 Scene을 날리기위해 호출
-        CurrentScene.Clear();
+        // 매니저들의 Clear() 메서드를 Managers의 Clear() 메서드에 모아두었으므로 불러와서 불필요한 메모리를 정리한 다음 로드할 준비를 한다
+        Managers.Clear();
         // Clear후에 다음 Scene을 로드한다
         SceneManager.LoadScene(GetSceneName(type));
     }
@@ -20,5 +20,11 @@ public class SceneManagerEx
     {
         string name = System.Enum.GetName(typeof(Define.Scene), type);
         return name;
+    }
+
+    public void Clear()
+    {
+        // 현재 사용하던 Scene을 날리기위해 호출
+        CurrentScene.Clear();
     }
 }

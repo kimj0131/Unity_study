@@ -17,6 +17,8 @@ public class TestSound : MonoBehaviour
     // 문제가 생기는(오브젝트가 파괴되면 재생이 중지) 경우를 막을 수 있을거 같다..
     public AudioClip audioClip;
     public AudioClip audioClip2;
+
+    int turn = 0;
     private void OnTriggerEnter(Collider other)
     {
         // 테스트용 하드코딩
@@ -27,8 +29,11 @@ public class TestSound : MonoBehaviour
         //// audioClip들의 길이를 알아내 그시간 이후에 파괴되게 할 수 있다
         //float lifeTime = Mathf.Max(audioClip.length, audioClip2.length);
         //GameObject.Destroy(gameObject, lifeTime);
+        turn++;
 
-        Managers.Sound.Play(Define.Sound.Effect, "UnityChan/univ0001");
-        Managers.Sound.Play(Define.Sound.Effect, "UnityChan/univ0002");
+        if (turn % 2 == 0)
+            Managers.Sound.Play("UnityChan/univ0001", Define.Sound.Bgm);
+        else
+            Managers.Sound.Play("UnityChan/univ0002", Define.Sound.Bgm);
     }
 }
