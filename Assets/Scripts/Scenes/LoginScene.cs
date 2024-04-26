@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LoginScene : BaseScene
@@ -7,6 +8,14 @@ public class LoginScene : BaseScene
         base.Init();
 
         SceneType = Define.Scene.Login;
+
+        // TEST
+        List<GameObject> list = new List<GameObject>();
+        for (int i = 0; i < 5; i++)
+            list.Add(Managers.Resource.Instantiate("UnityChan"));
+
+        foreach (GameObject obj in list)
+            Managers.Resource.Destroy(obj);
     }
 
     private void Update()

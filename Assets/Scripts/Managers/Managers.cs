@@ -10,12 +10,14 @@ public class Managers : MonoBehaviour
     // 나중에 다르게 처리하거나 혹은 코드의 변경이 필요할 때 해당 manager의 코드만 변경하면 일괄로 처리되어 작업의 효율이 올라가기 때문
 
     InputManager _input = new InputManager();
+    PoolManager _pool = new PoolManager();
     ResourceManager _resource = new ResourceManager();
     SceneManagerEx _scene = new SceneManagerEx();
     SoundManager _sound = new SoundManager();
     UIManager _ui = new UIManager();
 
     public static InputManager Input { get { return Instance._input; } }
+    public static PoolManager Pool { get { return Instance._pool; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
     public static SceneManagerEx Scene { get { return Instance._scene; } }
     public static SoundManager Sound { get { return Instance._sound; } }
@@ -47,6 +49,8 @@ public class Managers : MonoBehaviour
             s_instance = go.GetComponent<Managers>();
 
             // Instance 접근하면 절대 안된다(무한루프)
+            // 풀링의 Init()메서드 추가
+            s_instance._pool.Init();
             // SoundManager의 init을 실행시키게 한다
             s_instance._sound.Init();
         }
@@ -58,5 +62,6 @@ public class Managers : MonoBehaviour
         Input.Clear();
         Scene.Clear();
         UI.Clear();
+        Pool.Clear();
     }
 }

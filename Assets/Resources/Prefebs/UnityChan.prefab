@@ -6832,8 +6832,10 @@ GameObject:
   - component: {fileID: 114829143985052495}
   - component: {fileID: 4830276863254728352}
   - component: {fileID: 2818186776515633022}
+  - component: {fileID: 5891408209695351049}
   - component: {fileID: 1971524385681845310}
   - component: {fileID: 8422633041208804589}
+  - component: {fileID: 6529102061194058834}
   m_Layer: 0
   m_Name: UnityChan
   m_TagString: Untagged
@@ -6892,6 +6894,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 10
+--- !u!114 &5891408209695351049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8941854570908077347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2ce8da7aa80bfb4a858fc061ebe9f15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsUsing: 0
 --- !u!54 &1971524385681845310
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6934,7 +6949,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -6942,6 +6957,28 @@ CapsuleCollider:
   m_Height: 1.6562223
   m_Direction: 1
   m_Center: {x: 0, y: 0.783767, z: 0}
+--- !u!64 &6529102061194058834
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8941854570908077347}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &8949817831923102748
 GameObject:
   m_ObjectHideFlags: 0
