@@ -9,6 +9,7 @@ public class Managers : MonoBehaviour
     // 유니티 함수를 따로 래핑하는 이유 :
     // 나중에 다르게 처리하거나 혹은 코드의 변경이 필요할 때 해당 manager의 코드만 변경하면 일괄로 처리되어 작업의 효율이 올라가기 때문
 
+    DataManager _data = new DataManager();
     InputManager _input = new InputManager();
     PoolManager _pool = new PoolManager();
     ResourceManager _resource = new ResourceManager();
@@ -16,6 +17,7 @@ public class Managers : MonoBehaviour
     SoundManager _sound = new SoundManager();
     UIManager _ui = new UIManager();
 
+    public static DataManager Data { get { return Instance._data; } }
     public static InputManager Input { get { return Instance._input; } }
     public static PoolManager Pool { get { return Instance._pool; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
@@ -48,6 +50,8 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(go);
             s_instance = go.GetComponent<Managers>();
 
+            // Data Init
+            s_instance._data.Init();
             // Instance 접근하면 절대 안된다(무한루프)
             // 풀링의 Init()메서드 추가
             s_instance._pool.Init();
