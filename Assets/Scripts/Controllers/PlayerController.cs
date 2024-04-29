@@ -97,13 +97,7 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Wall")))
         {
             _destPos = hit.point;
-
-            // y좌표의 값을 고정
-            //_destPos.y = 0;
-            _destPos.y = GameObject.Find("Plane").transform.position.y;
-
             _state = PlayerState.Moving;
-            //Debug.Log($"Raycast Camera @{hit.collider.gameObject.tag}");
         }
     }
 }
