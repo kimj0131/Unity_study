@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,8 +23,6 @@ public class PlayerController : MonoBehaviour
         // 마우스 버튼 입력 이벤트 추가
         Managers.Input.MouseAction -= OnMouseClicked;
         Managers.Input.MouseAction += OnMouseClicked;
-
-
     }
 
     void UpdateDie()
@@ -36,19 +35,26 @@ public class PlayerController : MonoBehaviour
         Vector3 dir = _destPos - transform.position;
         // vector간의 빼기는 0이 나오지 않는 경우가 많다
         // vector.magnitude(벡터의 길이(크기)) 가 아주 작을경우 지정한(클릭한) 위치에 도달했다는 뜻으로 해석하게 한다
-        if (dir.magnitude < 0.0001f)
+        if (dir.magnitude < 0.1f)
         {
             _state = PlayerState.Idle;
         }
         else
         {
-            // 이동하는 값이 남은거리보다 작아야 한다는 것을 보장해줘야함
-            // Mathf.Clamp : 최소 / 최대값을 설정하여 float 값이 범위 이외의 값을 넘지 않도록 해준다
+            // TODO
+            NavMeshAgent nma = gameObject.GetOrAddComponent<NavMeshAgent>();
             float moveDist = Mathf.Clamp(_speed * Time.deltaTime, 0, dir.magnitude);
-            transform.position += dir.normalized * moveDist;
+            nma.Move(dir.normalized * moveDist);
 
+            Debug.DrawRay(transform.position + Vector3.up * 0.5f, dir.normalized, Color.green);
+            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, 1.0f, LayerMask.GetMask("Block")))
+            {
+                _state = PlayerState.Idle;
+                return;
+            }
+
+            //transform.position += dir.normalized * moveDist;
             // 바라보는 방향을 부드럽게 회전하도록
-            //transform.LookAt(_destPos);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
         }
 
@@ -91,7 +97,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(Camera.main.transform.position, ray.direction * 100.0f, Color.red, 1.0f);
+        //Debug.DrawRay(Camera.main.transform.position, ray.direction * 100.0f, Color.red, 1.0f);
 
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Wall")))
