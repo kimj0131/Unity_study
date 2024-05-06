@@ -8,6 +8,7 @@ public class InputManager
     public Action<Define.MouseEvent> MouseAction = null;
 
     bool _pressed = false;
+    float _pressedTime = 0;
 
     public void OnUpdate()
     {
@@ -22,16 +23,24 @@ public class InputManager
             // 마우스 왼쪽버튼을 누른상태
             if (Input.GetMouseButton(0))
             {
-                // Press로 상태변환
+                if (!_pressed)
+                {
+                    MouseAction.Invoke(Define.MouseEvent.PointerDown);
+                    _pressedTime = Time.time;
+                }
                 MouseAction.Invoke(Define.MouseEvent.Press);
                 _pressed = true;
             }
             else
             {
-                // 버튼을 떼었을 때 click으로 상태변환 후 누름상태를 false로 전환한다
                 if (_pressed)
-                    MouseAction.Invoke(Define.MouseEvent.Click);
+                {
+                    if (Time.time < _pressedTime + 0.2f)
+                        MouseAction.Invoke(Define.MouseEvent.Click);
+                    MouseAction.Invoke(Define.MouseEvent.PointerUp);
+                }
                 _pressed = false;
+                _pressedTime = 0;
             }
         }
     }
