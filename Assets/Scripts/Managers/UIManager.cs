@@ -40,6 +40,23 @@ public class UIManager
         }
     }
 
+    public T MakeWorldSpaceUI<T>(Transform parent = null, string name = null) where T : UI_Base
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        GameObject go = Managers.Resource.Instantiate($"UI/WorldSpace/{name}");
+        if (parent != null)
+            go.transform.SetParent(parent);
+
+        // UI 캔버스의 랜더링 모드를 WorldSpace, 이벤트 카메라를 Main Camera로 연결하는 작업
+        Canvas canvas = go.GetOrAddComponent<Canvas>();
+        canvas.renderMode = RenderMode.WorldSpace;
+        canvas.worldCamera = Camera.main;
+
+        return Util.GetOrAddComponent<T>(go);
+    }
+
     // 인벤 하위에 아이템을 만드는 메서드
     // parent 자동으로 지정하기위한 로직 추가
     public T MakeSubItem<T>(Transform parent = null, string name = null) where T : UI_Base
