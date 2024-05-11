@@ -8,7 +8,13 @@ public class Managers : MonoBehaviour
     // managers에 기능별매니저를 연결
     // 유니티 함수를 따로 래핑하는 이유 :
     // 나중에 다르게 처리하거나 혹은 코드의 변경이 필요할 때 해당 manager의 코드만 변경하면 일괄로 처리되어 작업의 효율이 올라가기 때문
+    #region Contents
+    GameManagerEx _game = new GameManagerEx();
 
+    public static GameManagerEx Game { get { return Instance._game; } }
+    #endregion
+
+    #region Core
     DataManager _data = new DataManager();
     InputManager _input = new InputManager();
     PoolManager _pool = new PoolManager();
@@ -24,6 +30,7 @@ public class Managers : MonoBehaviour
     public static SceneManagerEx Scene { get { return Instance._scene; } }
     public static SoundManager Sound { get { return Instance._sound; } }
     public static UIManager UI { get { return Instance._ui; } }
+    #endregion
 
     void Start()
     {

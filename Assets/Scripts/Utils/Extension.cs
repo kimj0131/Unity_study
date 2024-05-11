@@ -13,4 +13,10 @@ public static class Extension
     {
         UI_Base.BindEvent(go, action, type);
     }
+
+    public static bool IsValid(this GameObject go)
+    {
+        // go.activeSelf는 풀링한 게임오브젝트가 꺼져있는지 확인한다
+        return go != null && go.activeSelf;
+    }
 }
