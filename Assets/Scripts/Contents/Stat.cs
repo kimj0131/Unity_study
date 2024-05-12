@@ -35,4 +35,26 @@ public class Stat : MonoBehaviour
         _moveSpeed = 5.0f;
     }
 
+    // 다른방식으로 오버라이드 하여 구현할 수 있게 virtual 선언
+    public virtual void OnAttacked(Stat attacker)
+    {
+        int damage = Mathf.Max(0, attacker.Attack - Defense);
+        HP -= damage;
+        if (HP <= 0)
+        {
+            HP = 0;
+            OnDead(attacker);
+        }
+    }
+
+    protected virtual void OnDead(Stat attacker)
+    {
+        PlayerStat playerStat = attacker as PlayerStat;
+        if (playerStat != null)
+        {
+            //
+            playerStat.Exp += 5;
+        }
+        Managers.Game.Despawn(gameObject);
+    }
 }

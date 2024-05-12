@@ -24,10 +24,7 @@ public class MonsterController : BaseController
 
     protected override void UpdateIdle()
     {
-        Debug.Log("Monster UpdateIdle");
-
-        // TODO : 매니저가 생기면 옮길것
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        GameObject player = Managers.Game.GetPlayer();
         if (player == null)
             return;
 
