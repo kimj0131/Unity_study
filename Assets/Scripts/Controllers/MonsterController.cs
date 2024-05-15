@@ -91,13 +91,7 @@ public class MonsterController : BaseController
         {
             // 체력을 깎음
             Stat targetStat = _lockTarget.GetComponent<Stat>();
-            int damage = Mathf.Max(0, _stat.Attack - targetStat.Defense);
-            targetStat.HP -= damage;
-
-            if (targetStat.HP <= 0)
-            {
-                Managers.Game.Despawn(targetStat.gameObject);
-            }
+            targetStat.OnAttacked(_stat);
 
             // hp가 0이면 idle 상태
             if (targetStat.HP > 0)

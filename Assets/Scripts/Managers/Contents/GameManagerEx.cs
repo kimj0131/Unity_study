@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class GameManagerEx
     GameObject _player;
     //Dictionary<int, GameObject> _players = new Dictionary<int, GameObject>();
     HashSet<GameObject> _monsters = new HashSet<GameObject>();
+
+    public Action<int> OnSpawnEvent;
 
     public GameObject GetPlayer() { return _player; }
 
@@ -17,6 +20,9 @@ public class GameManagerEx
         {
             case Define.WorldObject.Monster:
                 _monsters.Add(go);
+                // 증감하는 숫자를 전달
+                if (OnSpawnEvent != null)
+                    OnSpawnEvent.Invoke(1);
                 break;
             case Define.WorldObject.Player:
                 _player = go;
@@ -45,7 +51,12 @@ public class GameManagerEx
             case Define.WorldObject.Monster:
                 {
                     if (_monsters.Contains(go))
+                    {
                         _monsters.Remove(go);
+                        // 증감하는 숫자를 전달
+                        if (OnSpawnEvent != null)
+                            OnSpawnEvent.Invoke(-1);
+                    }
                 }
                 break;
             case Define.WorldObject.Player:
